@@ -2,8 +2,10 @@ import express from "express";
 import cors from "cors";
 import rotasUsuario from "./routes/rotasUsuario.js";
 import rotasTurma from "./routes/rotasTurma.js";
+import dotenv from "dotenv";
+dotenv.config();
 
-const port = process.env.PORT || 5001;
+const port = process.env.PORT;
 
 const app = express();
 
