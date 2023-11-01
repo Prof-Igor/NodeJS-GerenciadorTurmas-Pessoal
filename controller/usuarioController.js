@@ -1,56 +1,52 @@
 import conexao from "../database/index.js";
 
-export const getUsuarios = (req, res) => {
-    const q = "SELECT * FROM tb_usuarios";
+export const usuariosController = {
+    getAll: async (req, res) => {
+        try {
+            const [data] = await conexao.query("SELECT * FROM tb_usuarios");
+            res.json(data).status(200);
+        } catch (error) {
+            res.json(error).status(501);
+        }
+    },
 
-    conexao.query(q, (error, data) =>{
-        if(error) return res.json(error);
+    create: async (req, res) => {
+        try {
+            const values = [
+                1,
+                req.body.nome,
+                req.body.usuario,
+                req.body.senha,
+                req.body.turma,
+            ]
+            const query = "INSERT INTO tb_usuarios(`tipo`, `nome`, `usuario`, `senha`, `fk_turma`) VALUES(?)";
+            await conexao.query(query, [values]);
+            res.json("Usuário cadastrado com sucesso").status(200);
+        } catch (error) {
+            res.json(error).status(501);
+        }
+    },
 
-        return res.status(200).json(data);
-    })
-}
+    update: async (req, res) => {
+        try {
+            const values = [
+                req.body.nome,
+                req.body.senha
+            ]
+            const query = "UPDATE tb_usuarios SET `nome` = ?, `senha` = ? WHERE `id` = ?";
+            await conexao.query(query, [...values, req.params.id]);
+            res.json("Usuário alterado com sucesso").status(200);
+        } catch (error) {
+            res.json(error).status(501);
+        }
+    },
 
-export const postUsuarios = (req, res) => {
-    const q = "INSERT INTO tb_usuarios(`tipo`, `nome`, `usuario`, `senha`, `fk_turma`) VALUES(?)";
-
-    const values = [
-        1,
-        req.body.nome,
-        req.body.usuario,
-        req.body.senha,
-        req.body.turma,
-    ]
-
-    console.log(req.body)
-
-    conexao.query(q, [values], (error) =>{
-        if(error) return res.json(error);
-
-        return res.status(200).json("Usuário criado com sucesso!");
-    })
-}
-
-export const putUsuarios = (req, res) => {
-    const q = "UPDATE tb_usuarios SET `nome` = ?, `email` = ? WHERE `id` = ?";
-
-    const values = [
-        req.body.nome,
-        req.body.email
-    ]
-
-    conexao.query(q, [...values, req.params.id], (error) =>{
-        if(error) return res.json(error);
-
-        return res.status(200).json("Usuário alterado com sucesso!");
-    })
-}
-
-export const deleteUsuarios = (req, res) => {
-    const q = "DELETE FROM tb_usuarios WHERE `id` = ?";
-
-    conexao.query(q, [req.params.id], (error) =>{
-        if(error) return res.json(error);
-
-        return res.status(200).json("Usuário deletado com sucesso!");
-    })
+    delete: async (req, res) => {
+        try {
+            const [data] = await conexao.query("DELETE FROM tb_usuarios WHERE `id` = ?", [req.params.id]);
+            res.json("Usuário removido com sucesso").status(200);
+        } catch (error) {
+            res.json(error).status(501);
+        }
+    }
 }

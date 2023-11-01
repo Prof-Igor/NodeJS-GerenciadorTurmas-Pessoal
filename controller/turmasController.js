@@ -1,11 +1,12 @@
 import conexao from "../database/index.js";
 
-export const getTurmas = (req, res) => {
-    const q = "SELECT * FROM tb_turmas";
-
-    conexao.query(q, (error, data) =>{
-        if(error) return res.json(error);
-
-        return res.status(200).json(data);
-    })
+export const turmasController = {
+    getTurmas: async (req, res) => {
+        try {
+            const [data] = await conexao.query("SELECT * FROM tb_turmas");
+            res.json(data).status(200);
+        } catch (error) {
+            res.json(error).status(501);
+        }
+    }
 }

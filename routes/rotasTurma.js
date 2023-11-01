@@ -1,8 +1,8 @@
 import express from "express"
-import { getTurmas } from "../controller/turmasController.js";
+import { turmasController } from "../controller/turmasController.js";
 
 const roteador = express.Router();
 
-roteador.get("/", getTurmas)
+roteador.get("/", turmasController.getTurmas)
 
 export default roteador;

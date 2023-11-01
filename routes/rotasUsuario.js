@@ -1,14 +1,14 @@
 import express from "express"
-import { getUsuarios, postUsuarios, putUsuarios, deleteUsuarios } from "../controller/usuarioController.js";
+import { usuariosController } from "../controller/usuarioController.js";
 
 const roteador = express.Router();
 
-roteador.get("/", getUsuarios)
+roteador.get("/", usuariosController.getAll)
 
-roteador.post("/", postUsuarios)
+roteador.post("/", usuariosController.create)
 
-roteador.put("/:id", putUsuarios)
+roteador.put("/:id", usuariosController.update)
 
-roteador.delete("/:id", deleteUsuarios)
+roteador.delete("/:id", usuariosController.delete)
 
 export default roteador;
