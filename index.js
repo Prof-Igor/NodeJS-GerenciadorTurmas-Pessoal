@@ -1,9 +1,9 @@
 import express from "express";
 import cors from "cors";
-import rotasUsuario from "./rotasUsuario.js";
-import rotasTurma from "./rotasTurma.js";
+import rotasUsuario from "./routes/rotasUsuario.js";
+import rotasTurma from "./routes/rotasTurma.js";
 
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 5001;
 
 const app = express();
 
@@ -13,5 +13,7 @@ app.use(cors())
 app.use("/usuario", rotasUsuario)
 app.use("/turma", rotasTurma)
 
-app.listen(port)
+app.listen(port, () => {
+    console.log("Server is running....")
+})
 
